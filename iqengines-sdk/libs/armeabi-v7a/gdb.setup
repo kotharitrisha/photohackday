@@ -1,0 +1,2 @@
+set solib-search-path ./obj/local/armeabi-v7a
+directory /Users/jchun/Documents/android-ndk-r8/platforms/android-14/arch-arm/usr/include /Users/jchun/Documents/android-ndk-r8/sources/cxx-stl/gnu-libstdc++ jni/../../prebuilt/OpenCV-2.3.1/include /Users/jchun/Documents/android-ndk-r8/sources/cxx-stl/gnu-libstdc++/include /Users/jchun/Documents/android-ndk-r8/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/include
