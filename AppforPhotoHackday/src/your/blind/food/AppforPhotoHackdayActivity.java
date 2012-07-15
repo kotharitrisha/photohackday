@@ -1,57 +1,69 @@
 package your.blind.food;
 
-
-import java.io.IOException;
-
 import android.app.Activity;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 public class AppforPhotoHackdayActivity extends Activity {
+
+	/* CameraActivity Variables */
+	private Camera mCamera;
+	private Preview mPreview;
+	private Overlay mOverlay;
+	private Button buttonProc, buttonBinImage, buttonReset;
+	private TextView textAns;
+
+	private String localSearchCapableStr = null;
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+
+		localSearchCapableStr = savedInstanceState != null ? savedInstanceState
+				.getString("localSearchCapable") : null;
+				
+				// Create an instance of Camera
+		        mCamera = getCameraInstance();
+		        Camera.Parameters mParameters = mCamera.getParameters();
+		        mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+		        mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+		        mCamera.setParameters(mParameters);
+		        
+		        // Create our Preview view and set it as the content of our activity.
+		        mPreview = new Preview(this, mCamera);
+		        FrameLayout preview = (FrameLayout) findViewById(R.id.preview);
+		        preview.addView(mPreview);
+		        
+		        // Create our Overlay
+		        mOverlay = new Overlay(this);
+		        preview.addView(mOverlay);
+		        mPreview.setOverlay(mOverlay);
+	}
+
+	public void onPause(Bundle savedInstanceState) {
+		mCamera.release();
+	}
+
+	public void onResume(Bundle savedInstance) {
+		mCamera = Camera.open(Camera.getNumberOfCameras());
+	}
 	
-	Camera camera;
-	
-	
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
-     
-        camera = Camera.open(Camera.getNumberOfCameras());
-        final CameraSurfaceView cameraSurfaceView = new CameraSurfaceView(this);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.preview); 
-        preview.addView(cameraSurfaceView);
-                
-        Button takeAPicture = (Button)findViewById(R.id.click);
-        takeAPicture.setOnClickListener(new OnClickListener() 
-        {
-                public void onClick(View v) 
-                {
-                        Camera camera = cameraSurfaceView.getCamera();
-                        camera.takePicture(null, null, new HandlePictureStorage());
-                }
-        });
-        
-        try {
-			camera.setPreviewDisplay((SurfaceHolder) cameraSurfaceView);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        camera.startPreview();
-    }
-    
-    public void onPause(Bundle savedInstanceState){
-    	camera.release();
-    }
-    
-    public void onResume(Bundle savedInstance){
-    	camera = Camera.open(Camera.getNumberOfCameras());
+	/**
+	 * Helper Methods
+	 */
+	public static Camera getCameraInstance() {
+    	Camera c = null;
+    	try {
+    		c = Camera.open();
+    	}
+    	catch (Exception e) {
+    		
+    	}
+    	return c;
     }
 }

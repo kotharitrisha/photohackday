@@ -14,7 +14,12 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int click=0x7f050001;
+        public static final int answer=0x7f050003;
+        public static final int buttonBinaryImage=0x7f050005;
+        public static final int buttonReset=0x7f050006;
+        public static final int linearLayoutHorz=0x7f050004;
+        public static final int linearLayoutVert=0x7f050002;
+        public static final int overlay=0x7f050001;
         public static final int preview=0x7f050000;
     }
     public static final class layout {
